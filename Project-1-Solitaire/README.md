@@ -20,8 +20,47 @@ My focus for the first project is to hone my software development skills, and sp
 ---
 ## User Stories:
 
-1. As a user 
+1. As a user, I want to shift a card from the Tableau to the Foundation Pile.
+2. As a user, I want to shift a card from one Tableau to another. 
+3. As a user, I want to shift a stack of ordered cards from one Tableau to another Tableau.
+4. As a user, I want to draw a card from the Draw Pile.
+5. As a user, I want to shift a card from the Draw Pile to the Tableau.
+6. As a user, I want to shift a card from the Draw Pile to the Foundation Pile.
+7. As a user, I want to be informed when I have won or lost the game.
+8. As a user, I want to reset the game.
+9. [Stretch Item] As a user, I want a timer for the game.
+10. [Stretch Item] As a user, I want to track my past scores (i.e. how many games I have won, lost and the time I took for each game.)
 
 ---
-## Visual 
+## Model
+userWin = ; takes on the value of true or false
+foundationPileAce = ; starts off as an empty pile
+foundationPileHearts = ; starts off as an empty pile
+foundationPileClover = ; starts off as an empty pile
+foundationPileDiamond = ; starts off as an empty pile
+tableau1 = ; starts off with one card face-up
+tableau2 = ; starts off with two cards. One card face-up, the rest face down.
+tableau3 = ; starts off with three cards. One card face-up, the rest face down.
+tableau4 = ; starts off with four cards. One card face-up, the rest face down.
+tableau5 = ; starts off with five cards. One card face-up, the rest face down.
+tableau6 = ; starts off with six cards. One card face-up, the rest face down.
+tableau7 = ; starts off with seven cards. One card face-up, the rest face down.
+drawPile = ; starts with no cards
+wastePile = ; starts with the rest of the undistributed cards. 
+deck = ;standard pack of 52 cards.
+
+---
+## View
 ![Project Screenshot](game-layout.png)
+
+
+## Controller
+init() = ; initialise the game. Distribute the cards to Tableaus and Draw Pile.
+shiftTabToFtn = ; shift card from Tableau to Foundation
+shiftTabToTab = ; shift card from Tableau to Tableau
+shiftStackTabtoTab = ; shift a stack of cards from Tableau to Tableau
+drawCard = ; draw a card from draw pile. If there was a previous card, then shift it to the Waste Pile.
+drawToTab = ; shift a card from Draw pile to Tableau.
+drawToFtn = ; shift a card from Draw pile to Foundation.
+
+---
