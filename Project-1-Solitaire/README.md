@@ -2,7 +2,7 @@
 ---
 ## Overview
 
-This is my first project during the Software Engineering Bootcamp. There is 3.5 day timeline to develop the product from start to finish, and is being developed using JS, HTML and CSS. I landed on the basic version of Solitaire aka Klondike. This was a game I was familiar with, that has some complexity, and would enhance my development in software engineering. 
+This is my first project during the Software Engineering Bootcamp. There is 4 day timeline to develop the product from start to finish, and is being developed using JS, HTML and CSS. I landed on the basic version of Solitaire aka Klondike. This was a game I was familiar with, that has some complexity, and would enhance my development in software engineering. 
 
 ---
 ## Timeline 
@@ -21,7 +21,7 @@ My focus for the first project is to hone my software development skills, and sp
 ## User Stories:
 
 1. As a user, I want to shift a card from the Tableau to the Foundation Pile.
-2. As a user, I want to shift a card from one Tableau to another. 
+2. As a user, I want to shift a card from one Tableau to another Tableau. 
 3. As a user, I want to shift a stack of ordered cards from one Tableau to another Tableau.
 4. As a user, I want to draw a card from the Draw Pile.
 5. As a user, I want to shift a card from the Draw Pile to the Tableau.
@@ -34,33 +34,33 @@ My focus for the first project is to hone my software development skills, and sp
 ---
 ## Model
 userWin = ; takes on the value of true or false
-foundationPileAce = ; starts off as an empty pile
-foundationPileHearts = ; starts off as an empty pile
-foundationPileClover = ; starts off as an empty pile
-foundationPileDiamond = ; starts off as an empty pile
-tableau1 = ; starts off with one card face-up
-tableau2 = ; starts off with two cards. One card face-up, the rest face down.
-tableau3 = ; starts off with three cards. One card face-up, the rest face down.
-tableau4 = ; starts off with four cards. One card face-up, the rest face down.
-tableau5 = ; starts off with five cards. One card face-up, the rest face down.
-tableau6 = ; starts off with six cards. One card face-up, the rest face down.
-tableau7 = ; starts off with seven cards. One card face-up, the rest face down.
-drawPile = ; starts with no cards
-wastePile = ; starts with the rest of the undistributed cards. 
-deck = ;standard pack of 52 cards.
+foundationPileAce = ; starts off as an empty pile, and will take the form of an array.
+foundationPileHearts = ; starts off as an empty pile, and will take the form of an array.
+foundationPileClover = ; starts off as an empty pile, and will take the form of an array.
+foundationPileDiamond = ; starts off as an empty pile, and will take the form of an array.
+tableau1 = ; starts off with one card face-up, and will take the form of an array.
+tableau2 = ; starts off with two cards. One card face-up, the rest face down. Take the form of an array.
+tableau3 = ; starts off with three cards. One card face-up, the rest face down. Take the form of an array.
+tableau4 = ; starts off with four cards. One card face-up, the rest face down. Take the form of an array.
+tableau5 = ; starts off with five cards. One card face-up, the rest face down. Take the form of an array.
+tableau6 = ; starts off with six cards. One card face-up, the rest face down. Take the form of an array.
+tableau7 = ; starts off with seven cards. One card face-up, the rest face down. Take the form of an array.
+drawPile = ; starts with the rest of the undistributed cards.
+wastePile = ; starts with no cards. 
+deck = ; standard pack of 52 cards.
 
 ---
 ## View
 ![Project Screenshot](game-layout.png)
 
-
 ## Controller
-init() = ; initialise the game. Distribute the cards to Tableaus and Draw Pile.
+init() = ; initialise the game. Shuffle the card. Distribute the cards to Tableaus and Draw Pile.
 shiftTabToFtn = ; shift card from Tableau to Foundation
 shiftTabToTab = ; shift card from Tableau to Tableau
 shiftStackTabtoTab = ; shift a stack of cards from Tableau to Tableau
-drawCard = ; draw a card from draw pile. If there was a previous card, then shift it to the Waste Pile.
-drawToTab = ; shift a card from Draw pile to Tableau.
+drawCard = ; draw a card from Draw pile. If there was a previous card, then shift that previous card to the Waste Pile.
+drawToTab = ; shift a card from Draw pile to Tableau. 
 drawToFtn = ; shift a card from Draw pile to Foundation.
 
 ---
+
