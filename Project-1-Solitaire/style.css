@@ -1,0 +1,28 @@
+p {
+    width: 100px;
+    height: 200px;
+    background-color: lightblue;
+    border: 2px solid blue;
+    padding: 10px;
+    margin: 10px;
+}
+
+#top-half {
+    display: flex;
+    justify-content: space-between;
+}
+
+#draw-waste-pile {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#foundation {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#tableau {
+    display: flex;
+    justify-content: space-between;
+}
