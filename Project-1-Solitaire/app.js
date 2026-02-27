@@ -4,10 +4,10 @@
 let deck;
 let noOfTableaus;
 let userWin;
-let foundationPileSpace;
-let foundationPileHearts;
-let foundationPileClubs;
-let foundationPileDiamond;
+let foundationPileSpade = [];
+let foundationPileHearts = [];
+let foundationPileClubs = [];
+let foundationPileDiamond = [];
 let masterTableau = [];
 let drawPile = [];
 let wastePile;
@@ -22,6 +22,8 @@ const init = () => {
     "cA","cQ","cK","cJ","c10","c09","c08","c07","c06","c05","c04","c03","c02",
     "sA","sQ","sK","sJ","s10","s09","s08","s07","s06","s05","s04","s03","s02",
   ];
+
+  userWin = false
 };
 
 // Function to generate the game layout based on number of Tableaus chosen by the user.
@@ -48,6 +50,12 @@ const gameLayout = () => {
         }
     }
 
+    // This part flips the last card of each Tableau to face up.
+    for (let tab of masterTableau){
+        tab[tab.length - 1].faceDown = false
+        console.log(tab[tab.length - 1])
+    }
+
     // This part places remaining card to draw pile.
 
     for (let item in deck){
@@ -64,13 +72,20 @@ const gameLayout = () => {
     
 }
 
+// Function to shift a card from Tableau to Foundation
 
+let const shiftTabToFtn = () => {
+
+    const selectCard = prompt("Which card do you want to move?") 
+    const selectPile = prompt("Which pile do you want to move to")
+
+}
 /*----------------------------- Event Listeners -----------------------------*/
 
 /*----------------------------- Run Functions  -----------------------------*/
 init()
 gameLayout()
-console.log(masterTableau)
-console.log("-----------")
-console.log(drawPile)
-console.log(drawPile.length)
+// console.log(masterTableau)
+// console.log("-----------")
+// console.log(drawPile)
+// console.log(drawPile.length)
