@@ -13,11 +13,12 @@ let foundationPiles = {
 }
 let masterTableau = {}; 
 let drawPile = [];
-let wastePile;
+let wastePile = [];
 let selectCard;
 let selectPile;
 /*------------------------ Cached Element References ------------------------*/
 const resetButton = document.getElementById("reset")
+const drawButton = document.getElementById("draw-pile")
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -78,7 +79,7 @@ const init = () => {
     
 };
 
-// Function to distribute cards to various piles, and flip top card of each tableau to face up
+// Function to distribute cards to various piles, and flip top card of each tableau to face up, and clear the Waste Pile
 const startGame = () => {
 
     // Ask user for how many Tableaus he wants and generate Tableaus
@@ -99,78 +100,147 @@ const startGame = () => {
     }
 
     // This part flips the last card of each Tableau to face up.
-    // for (let tab of masterTableau){
-    //     tab[tab.length - 1].faceDown = false
-    // }
 
-    Object.keys(masterTableau).forEach (
-    key => masterTableau[key][masterTableau[key].length -1].faceDown = false 
+    Object.keys(masterTableau).forEach (key => 
+        masterTableau[key][masterTableau[key].length -1].faceDown = false 
     )
 
-    // This part places remaining card to draw pile.
+    // This part places remaining cards to draw pile.
 
-    for (let item in deck){
+    // for (let item of deck){
 
-        let randomIndex = Math.floor(Math.random() * deck.length)
-        let randomCard = deck[randomIndex]        
-        drawPile.push(randomCard)
+    //     let randomIndex = Math.floor(Math.random() * deck.length)
+    //     let randomCard = deck[randomIndex]        
+    //     drawPile.push(randomCard)
+
+    drawPile = deck
+    wastePile = []
+}
+
+// Function to draw a card from Draw Pile, and move it to Waste Pile
+
+const drawCard = () => {
+    // if the Draw Pile is empty, then put back the cards from Waste Pile into Draw Pile in reverse order, and face all cards down.
+    if (drawPile.length === 0) {
+        drawPile = wastePile.reverse()
+        wastePile = []
+        drawPile.forEach(item => item.faceDown = true)
+    // Take the first card from Draw Pile, then show it face-up, and put it into Waste Pile
+    } else {
+        const newCard = drawPile.pop()
+        newCard.faceDown = false
+        wastePile.unshift(newCard)
     }
 
+    // renderDrawPile()
+    // renderWastePile()
+    masterRender()
+
 }
 
-// Function to select a card to move
 
-const selectCardFunction = () => {
-    selectCard = prompt("Which card do you want to move?") // To include event listeners.
-}
-
-// Function to select the pile to move to 
-
-const selectPileFunction = () => {
-    selectPile = prompt(`Which pile do you want to shift ${selectCard} to?`) // To include event listeners.
-}
-
-// Function to shift card from Tableau to Foundation
-
-// const shiftCardToFoundation = () => {
-
-//     // Check if card is of different color and running in sequence
-//     const sameSuit = card.suit === selectPile
-//     const cardInSequence = ((selectPile.length === 0 && selectCard.rank === 1) || (selectPile))
-//     if () {
-//         selectPile.push(selectCard)
-//     } 
-   
-// } 
-
-  
 /*----------------------------- DOM Functions -----------------------------*/
+// DOM Function to display a card
 const newCardElement = (card) => {
     const newCardDiv = document.createElement('div');
     newCardDiv.className = 'card';
-    newCardDiv.textContent = card.display
+    if (card.faceDown) {
+        newCardDiv.textContent = "Card Face Down"
+    } else {
+        newCardDiv.textContent = card.display    
+    }
     return newCardDiv
 }
 
+// DOM Function to display the Tableaus
 const renderTableaus = () => {
 
     const allTableausDiv = document.getElementById('tableau')
 
+    // Loop through each Tableau
     Object.entries(masterTableau).forEach(([key,value], index) => {
         const parentTableaus = document.createElement('div')
         parentTableaus.classList = 'parent-tableaus'
         parentTableaus.innerText = `Tableau ${index+1}`
 
+        // Loop through each Card in Tableau
         for (const item of value) {
             const addCard = newCardElement(item)
             parentTableaus.appendChild(addCard)
-
         }
 
         allTableausDiv.appendChild(parentTableaus)
     })
 }
+
+// DOM Function to display the Draw Pile and Waste Pile
+
+const renderDrawPile = () => {
+    
+    if (drawPile.length > 0) {
+        drawButton.textContent = `Draw Pile: ${drawPile.length} card(s) left in draw pile. Click to draw.`    
+    } else
+        drawButton.textContent = `Draw Pile: No cards left in draw pile. Click to recycle draw pile.`
+
+}
+
+const renderWastePile = () => {
+    const wastePileDiv = document.getElementById('waste-pile')
+
+    if (wastePile.length > 0) {
+        wastePileDiv.textContent = `Waste Pile: The card is ${wastePile[0].display}. ${wastePile.length} cards in Waste Pile.`
+    } else {
+        wastePileDiv.innerHTML = "No Cards in Waste Pile"
+    }
+
+}
+
+// DOM Function to display the top most card in the Foundation Piles
+
+const renderFtn = () => {
+
+    // const ftnClass = document.querySelectorAll('.foundation')
+    // for (let element of ftnClass) {
+    //     if (element.id === 'spades-foundation'){
+    //         element.textContent = "Spades Foundation: There are no cards."
+
+    //     } else if (element.id === 'hearts-foundation'){
+    //         element.textContent = "Hearts Foundation: There are no cards."
+
+    //     } else if (element.id === 'clubs-foundation'){
+    //         element.textContent = "Clubs Foundation: There are no cards."
+        
+    //     } else {
+    //         element.textContent = "Diamonds Foundation: There are no cards."
+    //     }
+    // }
+
+    for (let suit in foundationPiles){
+        const suitElement = document.getElementById(`${suit}-foundation`)
+        suitElement.textContent = `${suit} Foundation: There are no cards.`
+        if (foundationPiles[suit].length != 0) {
+            const ftnElement = document.getElementById(`${suit}-foundation`)
+            const lastCardOfPile = foundationPiles[suit][foundationPiles[suit].length - 1]
+            ftnElement.textContent = lastCardOfPile.display
+        }
+        
+
+    }
+
+}
+    
+
+
+// Create a master render function to nest all other render functions
+
+const masterRender = () => {
+
+    renderDrawPile()
+    renderWastePile()
+    renderFtn()
+}
+
 /*----------------------------- Event Listeners -----------------------------*/
 resetButton.addEventListener('click', init)
+drawButton.addEventListener('click', drawCard)
 /*----------------------------- Run Functions  -----------------------------*/
-// init()
