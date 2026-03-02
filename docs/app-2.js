@@ -24,7 +24,7 @@ const drawButton = document.getElementById("draw-pile")
 
 // Function to Generate a Deck of 52 Cards
 const generateCards = () => {
-
+    deck = []
     const suits = ['spades', 'hearts', 'clubs', 'diamonds']
     const charCardRank =[['A', 1], ['J', 11], ['Q', 12], ['K', 13]]
 
@@ -74,13 +74,15 @@ const generateCards = () => {
 const init = () => {
     generateCards()
     startGame()
-    renderTableaus()
+    masterRender()
     userWin = false
     
 };
 
 // Function to distribute cards to various piles, and flip top card of each tableau to face up, and clear the Waste Pile
 const startGame = () => {
+    drawPile = []
+    wastePile = []
 
     // Ask user for how many Tableaus he wants and generate Tableaus
     noOfTableaus = prompt("How many Tableaus do you want? Choose from 3 to 7.")
@@ -106,15 +108,7 @@ const startGame = () => {
     )
 
     // This part places remaining cards to draw pile.
-
-    // for (let item of deck){
-
-    //     let randomIndex = Math.floor(Math.random() * deck.length)
-    //     let randomCard = deck[randomIndex]        
-    //     drawPile.push(randomCard)
-
     drawPile = deck
-    wastePile = []
 }
 
 // Function to draw a card from Draw Pile, and move it to Waste Pile
@@ -156,6 +150,7 @@ const newCardElement = (card) => {
 const renderTableaus = () => {
 
     const allTableausDiv = document.getElementById('tableau')
+    allTableausDiv.textContent = ''
 
     // Loop through each Tableau
     Object.entries(masterTableau).forEach(([key,value], index) => {
@@ -199,21 +194,6 @@ const renderWastePile = () => {
 
 const renderFtn = () => {
 
-    // const ftnClass = document.querySelectorAll('.foundation')
-    // for (let element of ftnClass) {
-    //     if (element.id === 'spades-foundation'){
-    //         element.textContent = "Spades Foundation: There are no cards."
-
-    //     } else if (element.id === 'hearts-foundation'){
-    //         element.textContent = "Hearts Foundation: There are no cards."
-
-    //     } else if (element.id === 'clubs-foundation'){
-    //         element.textContent = "Clubs Foundation: There are no cards."
-        
-    //     } else {
-    //         element.textContent = "Diamonds Foundation: There are no cards."
-    //     }
-    // }
 
     for (let suit in foundationPiles){
         const suitElement = document.getElementById(`${suit}-foundation`)
@@ -235,6 +215,7 @@ const renderFtn = () => {
 
 const masterRender = () => {
 
+    renderTableaus()
     renderDrawPile()
     renderWastePile()
     renderFtn()
