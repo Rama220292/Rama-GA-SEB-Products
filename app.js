@@ -17,10 +17,10 @@ let wastePile;
 // Function to generate a deck of cards. 
 const init = () => {
   deck = [
-    "dA","dQ","dK","dJ","d10","d09","d08","d07","d06","d05","d04","d03","d02",
-    "hA","hQ","hK","hJ","h10","h09","h08","h07","h06","h05","h04","h03","h02",
-    "cA","cQ","cK","cJ","c10","c09","c08","c07","c06","c05","c04","c03","c02",
-    "sA","sQ","sK","sJ","s10","s09","s08","s07","s06","s05","s04","s03","s02",
+    "dK","dQ","dJ","d10","d09","d08","d07","d06","d05","d04","d03","d02","dA",
+    "hK","hQ","hJ","h10","h09","h08","h07","h06","h05","h04","h03","h02","hA",
+    "cK","cQ","cJ","c10","c09","c08","c07","c06","c05","c04","c03","c02","cA",
+    "sK","sQ","sJ","s10","s09","s08","s07","s06","s05","s04","s03","s02","sA",
   ];
 
   userWin = false
@@ -74,10 +74,29 @@ const gameLayout = () => {
 
 // Function to shift a card from Tableau to Foundation
 
-let const shiftTabToFtn = () => {
+const shiftTabToFtn = () => {
 
-    const selectCard = prompt("Which card do you want to move?") 
-    const selectPile = prompt("Which pile do you want to move to")
+    // const selectCard = prompt("Which card do you want to move?") 
+    // const selectPile = prompt("Which pile do you want to move to")
+    const selectCard = "dA"
+    const selectPile = foundationPileDiamond
+    
+    const checkSameSuit = selectCard.slice(0,1) === 'd' && selectPile === foundationPileDiamond
+    const topCardInPile = foundationPileDiamond[foundationPileDiamond.length - 1]
+    const checkCorrectSequence = foundationPileDiamond[foundationPileDiamond.length - 1].card.slice(1) === selectCard.slice(1)
+
+    if (checkSameSuit && checkCorrectSequence) {
+        console.log(selectCard)
+        console.log(topCardInPile)
+        
+
+    }
+
+
+
+
+
+
 
 }
 /*----------------------------- Event Listeners -----------------------------*/
@@ -89,3 +108,5 @@ gameLayout()
 // console.log("-----------")
 // console.log(drawPile)
 // console.log(drawPile.length)
+const test = foundationPileDiamond[foundationPileDiamond.length - 1]
+console.log(test)
