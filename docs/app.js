@@ -11,6 +11,8 @@ let foundationPileDiamond = [];
 let masterTableau = [];
 let drawPile = [];
 let wastePile;
+let selectCard;
+let selectPile;
 /*------------------------ Cached Element References ------------------------*/
 
 /*-------------------------------- Functions --------------------------------*/
@@ -27,7 +29,7 @@ const init = () => {
 };
 
 // Function to generate the game layout based on number of Tableaus chosen by the user.
-const gameLayout = () => {
+    const gameLayout = () => {
 
     // This part generates one array for each Tableau.
     noOfTableaus = prompt("How many Tableaus do you want? Choose from 3 to 7.")
@@ -72,31 +74,28 @@ const gameLayout = () => {
     
 }
 
+// Function to select a card to move
+
+const selectCardFunction = () => {
+    selectCard = prompt("Which card do you want to move?") // To include event listeners.
+}
+
+// Function to select the pile to move to 
+
+const selectPileFunction = () => {
+    selectPile = prompt(`Which pile do you want to shift ${selectCard} to?`) // To include event listeners.
+}
+
 // Function to shift a card from Tableau to Foundation
 
 const shiftTabToFtn = () => {
 
-    // const selectCard = prompt("Which card do you want to move?") 
-    // const selectPile = prompt("Which pile do you want to move to")
-    const selectCard = "dA"
-    const selectPile = foundationPileDiamond
+    selectCard = "dA" // To remove once event listeners are included.
+    selectPile = foundationPileDiamond // To remove once event listeners are included.
     
     const checkSameSuit = selectCard.slice(0,1) === 'd' && selectPile === foundationPileDiamond
     const topCardInPile = foundationPileDiamond[foundationPileDiamond.length - 1]
     const checkCorrectSequence = foundationPileDiamond[foundationPileDiamond.length - 1].card.slice(1) === selectCard.slice(1)
-
-    if (checkSameSuit && checkCorrectSequence) {
-        console.log(selectCard)
-        console.log(topCardInPile)
-        
-
-    }
-
-
-
-
-
-
 
 }
 /*----------------------------- Event Listeners -----------------------------*/
@@ -104,9 +103,6 @@ const shiftTabToFtn = () => {
 /*----------------------------- Run Functions  -----------------------------*/
 init()
 gameLayout()
-// console.log(masterTableau)
-// console.log("-----------")
-// console.log(drawPile)
-// console.log(drawPile.length)
-const test = foundationPileDiamond[foundationPileDiamond.length - 1]
-console.log(test)
+console.log(masterTableau)
+console.log("-----------")
+console.log(masterTableau)
