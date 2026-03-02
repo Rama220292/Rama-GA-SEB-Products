@@ -73,6 +73,7 @@ const generateCards = () => {
 const init = () => {
     generateCards()
     startGame()
+    renderTableaus()
     userWin = false
     
 };
@@ -152,19 +153,24 @@ const newCardElement = (card) => {
 }
 
 const renderTableaus = () => {
-    startGame()
-    allTableausDiv = document.getElementById('tableau')
-    for (let key in masterTableau) {
-        const Tableaus = document.createElement('div')
-        Tableaus.id(`grouped-tableau`)
 
+    const allTableausDiv = document.getElementById('tableau')
 
-    }
+    Object.entries(masterTableau).forEach(([key,value], index) => {
+        const parentTableaus = document.createElement('div')
+        parentTableaus.classList = 'parent-tableaus'
+        parentTableaus.innerText = `Tableau ${index+1}`
+
+        for (const item of value) {
+            const addCard = newCardElement(item)
+            parentTableaus.appendChild(addCard)
+
+        }
+
+        allTableausDiv.appendChild(parentTableaus)
+    })
 }
-
 /*----------------------------- Event Listeners -----------------------------*/
-resetButton.addEventListener('click', renderTableaus)
+resetButton.addEventListener('click', init)
 /*----------------------------- Run Functions  -----------------------------*/
-init()
-console.log(drawPile.length)
-renderTableaus()
+// init()
