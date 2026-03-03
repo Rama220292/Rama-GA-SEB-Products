@@ -22,9 +22,7 @@ let selectedCardKey; //ChatGPT suggested to create these variables This is so th
 const resetButton = document.getElementById("reset")
 const drawButton = document.getElementById("draw-pile")
 const wastePileDiv = document.getElementById('waste-pile')
-const foundationClass = document.querySelectorAll('foundation')
-const tableauClass = document.querySelectorAll('parent-tableaus')
-const cardClass = document.querySelectorAll('card')
+const foundationClass = document.querySelectorAll('.foundation')
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -186,6 +184,11 @@ const moveCard = () => {
     masterRender()
 
 }
+// Function to move card from tableau to foundation
+const moveWasteToFtn = () => {
+
+}
+
 
 // Function to clear card and pile variables. 
 const clearClick = () =>{
@@ -194,7 +197,6 @@ const clearClick = () =>{
     selectedCardKey = null
     selectedPile = null
 }
-
 
 /*----------------------------- DOM Functions -----------------------------*/
 // DOM Function to display a card
@@ -212,23 +214,35 @@ const newCardElement = (card) => {
 // DOM Function to display the Tableaus
 const renderTableaus = () => {
 
+
     const allTableausDiv = document.getElementById('tableau')
     allTableausDiv.textContent = ''
 
     // Loop through each Tableau
     Object.entries(masterTableau).forEach(([key,value], index) => {
         const parentTableaus = document.createElement('div')
-        parentTableaus.classList = 'parent-tableaus'
+        parentTableaus.classList = 'parent-tableaus' + " " +index
         parentTableaus.id = key
         parentTableaus.innerText = `Tableau ${index}`
+        parentTableaus.addEventListener('click', () => {
+            if (selectedCard){
+                selectPileFunction('tableau', key)
+            }
+        })
+
 
         // Loop through each Card in Tableau
         for (const item of value) {
             const addCard = newCardElement(item)
+            const cardClass = document.querySelectorAll('.card')
+            addCard.addEventListener('click', (event) => {
+                event.stopPropagation()                         // had a problem here where both a card and pile is selected when a card in tableau is being clicked. resolved this with ChatGPT's help.
+                selectCardFunction(item, 'tableau', key)})
             parentTableaus.appendChild(addCard)
-
-        allTableausDiv.appendChild(parentTableaus)
         }
+
+        
+        allTableausDiv.appendChild(parentTableaus)
     })
 }
 
@@ -289,24 +303,5 @@ wastePileDiv.addEventListener('click', () => {
         if (wastePile.length > 0) {
             selectCardFunction(wastePile[0], 'waste', 'wastePile')
         }})
-
-// Event Listener to Select Foundation Pile to Move card to
-foundationClass.forEach(foundation => {foundation.addEventListener('click', () => {
-            selectPileFunction('foundation', foundation.id)
-        })})
-
-// Event Listener to Select Tableau Pile to Move card to
-parentTableaus.forEach(tableau => tableau.addEventListener('click', () => {
-            if (selectedCard === null){
-                selectPileFunction('tableau', key)
-            }
-        }))
-
-// Event Listener to Select Card to Move
-cardClass.forEach(card => card.addEventListener('click', () => { 
-                selectCardFunction(item, 'tableau', card.parentElement.id)
-            })
-)
-
 
 /*----------------------------- Run Functions  -----------------------------*/
