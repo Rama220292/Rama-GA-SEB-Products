@@ -16,6 +16,8 @@ let drawPile = [];
 let wastePile = [];
 let selectedCard;
 let selectedPile;
+let selectedSourceType; //ChatGPT suggested to create these variables. This is so that we can identify which pile the card is from.
+let selectedSourceName; //ChatGPT suggested to create these variables This is so that we can identify which pile the card is from.
 /*------------------------ Cached Element References ------------------------*/
 const resetButton = document.getElementById("reset")
 const drawButton = document.getElementById("draw-pile")
@@ -36,7 +38,7 @@ const generateCards = () => {
                     rank: i,
                     suit: s,
                     faceDown: true,
-                    pile: undefined}
+                    }
             deck.push(card)
         }
 
@@ -130,37 +132,26 @@ const drawCard = () => {
 
 }
 
-// Function to select a card to move
+// Function to select a pile
 
-const selectCardFunction = (event) => {
-    if (selectedCard === '' && selectedPile === '') {
-        selectedCard = event.target    
-    }   
+const selectPileFunction = (pile) => {
+    selectedPile = pile
 }
 
-// Function to select a pile to move to
-const selectPileFunction = (event) => {
-    if (selectedCard !=== '' && selectedPile === '') {
-        selectedPile = event.target
-    }
-}
+// Function to select a card
 
-// Function to move the selected card to the selected pile
-
-const moveCard = () => {
-
-    if (selectedCard.faceDown = true){
-        return 
+const selectCardFunction = (card, sourceType, sourceName) => {
+    if (card.faceDown) {
+        alert("Cannot select face down card.")
+        return
     }
 
-    // move card from Tableau to Ftn
+    selectedCard = card
+    selectedSourceType = sourceType
+    selectedSourceName = sourceName
 
-    
-    // move card from Waste to Ftn
-
-    // move card from Tableau to Tableau 
+    console.log("Selected:", card.display, "from", sourceName)
 }
-
 /*----------------------------- DOM Functions -----------------------------*/
 // DOM Function to display a card
 const newCardElement = (card) => {
@@ -183,13 +174,16 @@ const renderTableaus = () => {
     // Loop through each Tableau
     Object.entries(masterTableau).forEach(([key,value], index) => {
         const parentTableaus = document.createElement('div')
-        parentTableaus.classList = 'parent-tableaus'
+        parentTableaus.classList = 'parent-tableaus' + ' '+ index
         parentTableaus.innerText = `Tableau ${index+1}`
 
         // Loop through each Card in Tableau
         for (const item of value) {
             const addCard = newCardElement(item)
             parentTableaus.appendChild(addCard)
+            addCard.addEventListener('click', () => { 
+                selectCardFunction(item, 'tableau', key)
+            })
 
         }
 
@@ -216,6 +210,13 @@ const renderWastePile = () => {
     } else {
         wastePileDiv.innerHTML = "No Cards in Waste Pile"
     }
+
+    wastePileDiv.addEventListener('click', () => {
+        if (wastePile.length > 0) {
+            selectCardFunction(wastePile[0], 'waste', 'wastePile')
+        }
+        
+    })
 
 }
 
