@@ -16,11 +16,15 @@ let drawPile = [];
 let wastePile = [];
 let selectedCard;
 let selectedPile;
-let selectedSourceType; //ChatGPT suggested to create these variables. This is so that we can identify which pile the card is from.
-let selectedSourceName; //ChatGPT suggested to create these variables This is so that we can identify which pile the card is from.
+let selectedCardPile; //ChatGPT suggested to create these variables. This is so that we can identify which pile the card is from.
+let selectedCardKey; //ChatGPT suggested to create these variables This is so that we can identify which pile the card is from.
 /*------------------------ Cached Element References ------------------------*/
 const resetButton = document.getElementById("reset")
 const drawButton = document.getElementById("draw-pile")
+const wastePileDiv = document.getElementById('waste-pile')
+const foundationClass = document.querySelectorAll('foundation')
+const tableauClass = document.querySelectorAll('parent-tableaus')
+const cardClass = document.querySelectorAll('card')
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -85,6 +89,7 @@ const init = () => {
 const startGame = () => {
     drawPile = []
     wastePile = []
+    masterTableau = {}
 
     // Ask user for how many Tableaus he wants and generate Tableaus
     noOfTableaus = prompt("How many Tableaus do you want? Choose from 3 to 7.")
@@ -135,15 +140,15 @@ const drawCard = () => {
 // Function to select a card. Feedback from ChatGPT was to capture the name of the array the card came from, 
 // and the name of the object the array came. This is to place cards in the correct array, and the array in the correct object.
 
-const selectCardFunction = (card, cardObject, cardArray) => {
+const selectCardFunction = (card, cardPile, cardKey) => {
     if (card.faceDown) {
         alert("Cannot select face down card.")
         return
     }
 
     selectedCard = card
-    selectedCardSourceType = cardObject //This is either 'tableau' or 'foundation' or 'waste'
-    selectedCardSourceName = cardArray //This is either 'tabX' or 'spades/hearts/clubs/diamonds' or 'waste'
+    selectedCardPile = cardPile //This is either 'tableau' or 'foundation' or 'waste'
+    selectedCardKey = cardKey //This is either 'tabX' or 'spades/hearts/clubs/diamonds' or 'waste'
 }
 
 // Function to select a pile. Feedback from ChatGPT was to capture the pile name and the pile key. 
@@ -152,6 +157,8 @@ const selectCardFunction = (card, cardObject, cardArray) => {
 const selectPileFunction = (pile, key) => {
     selectedPile = {piletype: pile,   // pile here is either 'tableau' or 'foundation' or 'waste' 
                     pilekey: key}     // key here either 'tabX' or 'spades/hearts/clubs/diamonds' or 'waste'
+    
+    moveCard()
 }
 
 const moveCard = () => {
@@ -161,13 +168,17 @@ const moveCard = () => {
         return
     }
 
-    if (selectedPile.piletype === 'tableau' && selectedCardSourceType === 'tableau') {
+    if (selectedPile.piletype === 'tableau' && selectedCardPile === 'tableau') {
+        console.log("Hi")
         moveTabToTab()
-    } else if (selectedPile.piletype === 'foundation' && selectedCardSourceType === 'tableau'){
+    } else if (selectedPile.piletype === 'foundation' && selectedCardPile === 'tableau'){
+        console.log("HiHi")
         moveTabToFtn()
-    } else if (selectedPile.piletype === 'foundation' && selectedSourceType === 'waste'){
+    } else if (selectedPile.piletype === 'foundation' && selectedCardPile === 'waste'){
+        console.log("HiHiHi")
         moveWasteToFtn()
-    } else if (selectedPile.piletype === 'tableau' && selectedSourceType === 'waste'){
+    } else if (selectedPile.piletype === 'tableau' && selectedCardPile === 'waste'){
+        console.log("HiHiHiHi")
         moveWasteToTab()
     }
 
@@ -179,10 +190,12 @@ const moveCard = () => {
 // Function to clear card and pile variables. 
 const clearClick = () =>{
     selectedCard = null
-    selectedCardSourceType = null 
-    selectedCardSourceName = null
+    selectedCardPile = null 
+    selectedCardKey = null
     selectedPile = null
 }
+
+
 /*----------------------------- DOM Functions -----------------------------*/
 // DOM Function to display a card
 const newCardElement = (card) => {
@@ -205,23 +218,17 @@ const renderTableaus = () => {
     // Loop through each Tableau
     Object.entries(masterTableau).forEach(([key,value], index) => {
         const parentTableaus = document.createElement('div')
-        parentTableaus.classList = 'parent-tableaus' + ' '+ index
-        parentTableaus.innerText = `Tableau ${index+1}`
-        parentTableaus.addEventListener('click', () => {
-            selectPileFunction('tableau', key)
-        })
+        parentTableaus.classList = 'parent-tableaus'
+        parentTableaus.id = key
+        parentTableaus.innerText = `Tableau ${index}`
 
         // Loop through each Card in Tableau
         for (const item of value) {
             const addCard = newCardElement(item)
             parentTableaus.appendChild(addCard)
-            addCard.addEventListener('click', () => { 
-                selectCardFunction(item, 'tableau', key)
-            })
-
-        }
 
         allTableausDiv.appendChild(parentTableaus)
+        }
     })
 }
 
@@ -237,21 +244,12 @@ const renderDrawPile = () => {
 }
 
 const renderWastePile = () => {
-    const wastePileDiv = document.getElementById('waste-pile')
 
     if (wastePile.length > 0) {
         wastePileDiv.textContent = `Waste Pile: The card is ${wastePile[0].display}. ${wastePile.length} cards in Waste Pile.`
     } else {
         wastePileDiv.innerHTML = "No Cards in Waste Pile"
     }
-
-    wastePileDiv.addEventListener('click', () => {
-        if (wastePile.length > 0) {
-            selectCardFunction(wastePile[0], 'waste', 'wastePile')
-        }
-        
-    })
-
 }
 
 // DOM Function to display the top most card in the Foundation Piles
@@ -259,17 +257,13 @@ const renderWastePile = () => {
 const renderFtn = () => {
 
     for (let suit in foundationPiles){
-        const suitElement = document.getElementById(`${suit}-foundation`)
-        suitElement.textContent = `${suit} Foundation: There are no cards.`
-        suitElement.addEventListener('click', () => {
-            selectPileFunction('foundation', suit)
-        })
-        if (foundationPiles[suit].length != 0) {
-            const ftnElement = document.getElementById(`${suit}-foundation`)
-            const lastCardOfPile = foundationPiles[suit][foundationPiles[suit].length - 1]
-            ftnElement.textContent = lastCardOfPile.display
-        }
+        const ftnElement = document.getElementById(suit) 
+        ftnElement.textContent = `${suit} Foundation: There are no cards.`
         
+    if (foundationPiles[suit].length != 0) {
+        const lastCardOfPile = foundationPiles[suit][foundationPiles[suit].length - 1]
+        ftnElement.textContent = lastCardOfPile.display
+    } 
 
     }
 
@@ -285,7 +279,34 @@ const masterRender = () => {
     renderFtn()
 }
 
+
 /*----------------------------- Event Listeners -----------------------------*/
 resetButton.addEventListener('click', init)
 drawButton.addEventListener('click', drawCard)
+
+// Event Listener to Select Card from Waste Pile
+wastePileDiv.addEventListener('click', () => {
+        if (wastePile.length > 0) {
+            selectCardFunction(wastePile[0], 'waste', 'wastePile')
+        }})
+
+// Event Listener to Select Foundation Pile to Move card to
+foundationClass.forEach(foundation => {foundation.addEventListener('click', () => {
+            selectPileFunction('foundation', foundation.id)
+        })})
+
+// Event Listener to Select Tableau Pile to Move card to
+parentTableaus.forEach(tableau => tableau.addEventListener('click', () => {
+            if (selectedCard === null){
+                selectPileFunction('tableau', key)
+            }
+        }))
+
+// Event Listener to Select Card to Move
+cardClass.forEach(card => card.addEventListener('click', () => { 
+                selectCardFunction(item, 'tableau', card.parentElement.id)
+            })
+)
+
+
 /*----------------------------- Run Functions  -----------------------------*/
