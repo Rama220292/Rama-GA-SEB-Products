@@ -132,12 +132,6 @@ const drawCard = () => {
 
 }
 
-// Function to select a pile
-
-const selectPileFunction = (pile) => {
-    selectedPile = pile
-}
-
 // Function to select a card
 
 const selectCardFunction = (card, sourceType, sourceName) => {
@@ -150,8 +144,16 @@ const selectCardFunction = (card, sourceType, sourceName) => {
     selectedSourceType = sourceType
     selectedSourceName = sourceName
 
-    console.log("Selected:", card.display, "from", sourceName)
+    console.log(card.display, "from", sourceName)
 }
+
+// Function to select a pile
+
+const selectPileFunction = (pile, pileKey) => {
+    selectedPile = {pile, pileKey}
+}
+
+
 /*----------------------------- DOM Functions -----------------------------*/
 // DOM Function to display a card
 const newCardElement = (card) => {
@@ -176,6 +178,9 @@ const renderTableaus = () => {
         const parentTableaus = document.createElement('div')
         parentTableaus.classList = 'parent-tableaus' + ' '+ index
         parentTableaus.innerText = `Tableau ${index+1}`
+        parentTableaus.addEventListener('click', () => {
+            selectPileFunction('tableau', key)
+        })
 
         // Loop through each Card in Tableau
         for (const item of value) {
@@ -224,10 +229,12 @@ const renderWastePile = () => {
 
 const renderFtn = () => {
 
-
     for (let suit in foundationPiles){
         const suitElement = document.getElementById(`${suit}-foundation`)
         suitElement.textContent = `${suit} Foundation: There are no cards.`
+        suitElement.addEventListener('click', () => {
+            selectCPileFunction('foundation', suit)
+        })
         if (foundationPiles[suit].length != 0) {
             const ftnElement = document.getElementById(`${suit}-foundation`)
             const lastCardOfPile = foundationPiles[suit][foundationPiles[suit].length - 1]
@@ -239,7 +246,6 @@ const renderFtn = () => {
 
 }
     
-
 // Create a master render function to nest all other render functions
 
 const masterRender = () => {
