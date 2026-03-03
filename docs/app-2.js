@@ -154,7 +154,7 @@ const selectCardFunction = (card, cardPile, cardKey) => {
 
 const selectPileFunction = (pile, key) => {
     selectedPile = {piletype: pile,   // pile here is either 'tableau' or 'foundation' or 'waste' 
-                    pilekey: key}     // key here either 'tabX' or 'spades/hearts/clubs/diamonds' or 'waste'
+                    pilekey: key}     // key here either 'tabX' or 'spades/hearts/clubs/diamonds' or 'waste-pile'
     
     moveCard()
 }
@@ -186,8 +186,19 @@ const moveCard = () => {
 }
 // Function to move card from tableau to foundation
 const moveWasteToFtn = () => {
+    console.log("moveWasteToFtn is working.")
+    const pile = foundationPiles[selectedPile.pilekey]
+    const sameSuit = selectedPile.pilekey === selectedCard.suit
+    const inSequence = ((pile.length === 0 && selectedCard.rank === 1) ||
+                        (pile.length !== 0 && pile[pile.length - 1].rank + 1 === selectedCard.rank))
 
+    if (sameSuit && inSequence){
+        pile.push(selectedCard)
+        wastePile.shift()
+    }
 }
+
+// Function to move card from 
 
 
 // Function to clear card and pile variables. 
@@ -215,14 +226,14 @@ const newCardElement = (card) => {
 const renderTableaus = () => {
 
 
-    const allTableausDiv = document.getElementById('tableau')
+    const allTableausDiv = document.getElementById('tableaus')
     allTableausDiv.textContent = ''
 
     // Loop through each Tableau
     Object.entries(masterTableau).forEach(([key,value], index) => {
         const parentTableaus = document.createElement('div')
-        parentTableaus.classList = 'parent-tableaus' + " " +index
-        parentTableaus.id = key
+        parentTableaus.classList = 'tableau'
+        parentTableaus.id = index
         parentTableaus.innerText = `Tableau ${index}`
         parentTableaus.addEventListener('click', () => {
             if (selectedCard){
@@ -276,7 +287,7 @@ const renderFtn = () => {
         
     if (foundationPiles[suit].length != 0) {
         const lastCardOfPile = foundationPiles[suit][foundationPiles[suit].length - 1]
-        ftnElement.textContent = lastCardOfPile.display
+        ftnElement.textContent = `${suit} Foundation: Top Card is ${lastCardOfPile.display}`
     } 
 
     }
@@ -301,7 +312,13 @@ drawButton.addEventListener('click', drawCard)
 // Event Listener to Select Card from Waste Pile
 wastePileDiv.addEventListener('click', () => {
         if (wastePile.length > 0) {
-            selectCardFunction(wastePile[0], 'waste', 'wastePile')
+            selectCardFunction(wastePile[0], 'waste', 'waste-pile')
         }})
+
+foundationClass.forEach(foundation => {
+    foundation.addEventListener('click', () => {
+        selectPileFunction('foundation', foundation.id)
+    })
+})
 
 /*----------------------------- Run Functions  -----------------------------*/
