@@ -132,28 +132,57 @@ const drawCard = () => {
 
 }
 
-// Function to select a card
+// Function to select a card. Feedback from ChatGPT was to capture the name of the array the card came from, 
+// and the name of the object the array came. This is to place cards in the correct array, and the array in the correct object.
 
-const selectCardFunction = (card, sourceType, sourceName) => {
+const selectCardFunction = (card, cardObject, cardArray) => {
     if (card.faceDown) {
         alert("Cannot select face down card.")
         return
     }
 
     selectedCard = card
-    selectedSourceType = sourceType
-    selectedSourceName = sourceName
-
-    console.log(card.display, "from", sourceName)
+    selectedCardSourceType = cardObject //This is either 'tableau' or 'foundation' or 'waste'
+    selectedCardSourceName = cardArray //This is either 'tabX' or 'spades/hearts/clubs/diamonds' or 'waste'
 }
 
-// Function to select a pile
+// Function to select a pile. Feedback from ChatGPT was to capture the pile name and the pile key. 
+// This is to place cards in the correct pile subsequently.
 
-const selectPileFunction = (pile, pileKey) => {
-    selectedPile = {pile, pileKey}
+const selectPileFunction = (pile, key) => {
+    selectedPile = {piletype: pile,   // pile here is either 'tableau' or 'foundation' or 'waste' 
+                    pilekey: key}     // key here either 'tabX' or 'spades/hearts/clubs/diamonds' or 'waste'
 }
 
+const moveCard = () => {
 
+    if (!selectedCard || !selectedPile) {
+        alert("Choose a card and a pile!")
+        return
+    }
+
+    if (selectedPile.piletype === 'tableau' && selectedCardSourceType === 'tableau') {
+        moveTabToTab()
+    } else if (selectedPile.piletype === 'foundation' && selectedCardSourceType === 'tableau'){
+        moveTabToFtn()
+    } else if (selectedPile.piletype === 'foundation' && selectedSourceType === 'waste'){
+        moveWasteToFtn()
+    } else if (selectedPile.piletype === 'tableau' && selectedSourceType === 'waste'){
+        moveWasteToTab()
+    }
+
+    clearClick()
+    masterRender()
+
+}
+
+// Function to clear card and pile variables. 
+const clearClick = () =>{
+    selectedCard = null
+    selectedCardSourceType = null 
+    selectedCardSourceName = null
+    selectedPile = null
+}
 /*----------------------------- DOM Functions -----------------------------*/
 // DOM Function to display a card
 const newCardElement = (card) => {
@@ -233,7 +262,7 @@ const renderFtn = () => {
         const suitElement = document.getElementById(`${suit}-foundation`)
         suitElement.textContent = `${suit} Foundation: There are no cards.`
         suitElement.addEventListener('click', () => {
-            selectCPileFunction('foundation', suit)
+            selectPileFunction('foundation', suit)
         })
         if (foundationPiles[suit].length != 0) {
             const ftnElement = document.getElementById(`${suit}-foundation`)
