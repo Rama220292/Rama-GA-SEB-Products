@@ -14,8 +14,8 @@ let foundationPiles = {
 let masterTableau = {}; 
 let drawPile = [];
 let wastePile = [];
-let selectCard;
-let selectPile;
+let selectedCard;
+let selectedPile;
 /*------------------------ Cached Element References ------------------------*/
 const resetButton = document.getElementById("reset")
 const drawButton = document.getElementById("draw-pile")
@@ -126,12 +126,40 @@ const drawCard = () => {
         wastePile.unshift(newCard)
     }
 
-    // renderDrawPile()
-    // renderWastePile()
     masterRender()
 
 }
 
+// Function to select a card to move
+
+const selectCardFunction = (event) => {
+    if (selectedCard === '' && selectedPile === '') {
+        selectedCard = event.target    
+    }   
+}
+
+// Function to select a pile to move to
+const selectPileFunction = (event) => {
+    if (selectedCard !=== '' && selectedPile === '') {
+        selectedPile = event.target
+    }
+}
+
+// Function to move the selected card to the selected pile
+
+const moveCard = () => {
+
+    if (selectedCard.faceDown = true){
+        return 
+    }
+
+    // move card from Tableau to Ftn
+
+    
+    // move card from Waste to Ftn
+
+    // move card from Tableau to Tableau 
+}
 
 /*----------------------------- DOM Functions -----------------------------*/
 // DOM Function to display a card
@@ -162,6 +190,7 @@ const renderTableaus = () => {
         for (const item of value) {
             const addCard = newCardElement(item)
             parentTableaus.appendChild(addCard)
+
         }
 
         allTableausDiv.appendChild(parentTableaus)
@@ -209,7 +238,6 @@ const renderFtn = () => {
 
 }
     
-
 
 // Create a master render function to nest all other render functions
 
