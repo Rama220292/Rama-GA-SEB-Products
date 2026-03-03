@@ -198,7 +198,49 @@ const moveWasteToFtn = () => {
     }
 }
 
-// Function to move card from 
+// Function to move card from waste to tableau
+
+const moveWasteToTab = () => {
+     console.log("moveWasteToTab is working.")
+     const pile = masterTableau[selectedPile.pilekey]
+    //  if card is King and Pile empty or if card rank is one lower, and color different, then shifr
+    const cardKingTableauEmpty = selectedCard.rank === 13 && pile.length === 0
+    if (pile.length === 0){
+        let inSequence = false    
+    } else {
+        let inSequence = selectedCard.rank + 1 === pile[pile.length - 1].rank && selectedCard.color !== pile[pile.length - 1].color
+    }
+
+
+    if (cardKingTableauEmpty || inSequence) {
+        pile.push(selectedCard)
+        wastePile.shift()
+    }
+
+}
+
+// Function to move card from tableau to foundation
+const moveTabToFtn = () => {
+    console.log("moveTabToFtn is working.")
+    // if same suit and cards in seequence, then move
+    const pile = foundationPiles[selectedPile.pilekey]
+    const sameSuit = selectedPile.pilekey === selectedCard.suit
+    const inSequence = ((pile.length === 0 && selectedCard.rank === 1) ||
+                        (pile.length !== 0 && pile[pile.length - 1].rank + 1 === selectedCard.rank))
+
+    if (sameSuit && inSequence) {
+        pile.push(selectedCard)
+        masterTableau[selectedCardKey].pop()
+        
+        // If card is moved from tableau to foundation, open the next card in tableau to face up.
+        const activeTableau = masterTableau[selectedCardKey]
+
+        if (activeTableau.length !== 0) {
+            activeTableau[activeTableau.length - 1].faceDown = false
+        }
+    }
+
+}
 
 
 // Function to clear card and pile variables. 
@@ -245,7 +287,6 @@ const renderTableaus = () => {
         // Loop through each Card in Tableau
         for (const item of value) {
             const addCard = newCardElement(item)
-            const cardClass = document.querySelectorAll('.card')
             addCard.addEventListener('click', (event) => {
                 event.stopPropagation()                         // had a problem here where both a card and pile is selected when a card in tableau is being clicked. resolved this with ChatGPT's help.
                 selectCardFunction(item, 'tableau', key)})
