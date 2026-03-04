@@ -1,28 +1,234 @@
-p {
+/* -----------------------------------------
+   GLOBAL LAYOUT
+------------------------------------------ */
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #0b5d1e;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    padding: 15px;
+    margin: 0;
+}
+
+
+/* -----------------------------------------
+   TOP AREA
+------------------------------------------ */
+
+.top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px 40px;
+}
+
+.left-piles {
+    display: flex;
+    gap: 20px;
+}
+
+.foundation-area {
+    display: flex;
+    gap: 20px;
+}
+
+
+/* -----------------------------------------
+   TABLEAU AREA
+------------------------------------------ */
+
+#tableaus {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 30px;
+}
+
+.tableau {
     width: 100px;
-    height: 200px;
-    background-color: lightblue;
-    border: 2px solid blue;
-    padding: 10px;
-    margin: 10px;
+    min-height: 160px;
+    border: 2px dashed rgba(255,255,255,0.25);
+    border-radius: 8px;
+    padding: 10px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#top-half {
+
+/* -----------------------------------------
+   CARD STYLE
+------------------------------------------ */
+
+.card {
+    width: 90px;
+    height: 120px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: bold;
+    font-size: 28px;
+
+    cursor: pointer;
+    position: relative;
+
+    color: black;
+
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
-#draw-waste-pile {
-    display: flex;
-    justify-content: flex-start;
+
+/* card stacking */
+.tableau .card {
+    margin-top: 25px;
 }
 
-#foundation {
-    display: flex;
-    justify-content: flex-end;
+.tableau .card:first-child {
+    margin-top: 10px;
 }
 
-#tableau {
+
+/* hover effect */
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.6);
+}
+
+
+/* suit colors */
+
+.red-card {
+    color: red;
+}
+
+.black-card {
+    color: black;
+}
+
+
+/* facedown cards */
+
+.face-down {
+    background-color: #1b1b8a;
+}
+
+
+/* -----------------------------------------
+   WASTE + FOUNDATION
+------------------------------------------ */
+
+#waste-pile,
+.foundation {
+    width: 100px;
+    height: 120px;
+
+    background-color: rgba(255,255,255,0.1);
+
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 8px;
+
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 5px;
+
+    cursor: pointer;
+}
+
+#waste-pile:hover,
+.foundation:hover,
+.tableau:hover {
+    background-color: rgba(255,255,255,0.15);
+}
+
+
+/* -----------------------------------------
+   BUTTONS
+------------------------------------------ */
+
+button {
+    background-color: #1e8f3c;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #28a745;
+}
+
+
+/* -----------------------------------------
+   SELECTED CARD
+------------------------------------------ */
+
+.card.selected {
+    outline: 3px solid gold;
+    transform: translateY(-8px);
+}
+
+#waste-pile .card,
+.foundation .card {
+    margin-top: 0;
+}
+
+/* =========================================
+   FOUNDATION SUIT LABELS
+========================================= */
+
+.foundation {
+    position: relative;
+}
+
+/* Spades */
+#spades::before {
+    content: "♠";
+    position: absolute;
+    top: -28px;
+    font-size: 22px;
+    color: white;
+}
+
+/* Hearts */
+#hearts::before {
+    content: "♥";
+    position: absolute;
+    top: -28px;
+    font-size: 22px;
+    color: red;
+}
+
+/* Clubs */
+#clubs::before {
+    content: "♣";
+    position: absolute;
+    top: -28px;
+    font-size: 22px;
+    color: white;
+}
+
+/* Diamonds */
+#diamonds::before {
+    content: "♦";
+    position: absolute;
+    top: -28px;
+    font-size: 22px;
+    color: red;
 }

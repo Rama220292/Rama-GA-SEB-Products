@@ -4,29 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <link rel="stylesheet" href="./style.css" /> -->
+    <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
     <h1> Solitaire </h1>
     
-    <div class="top-half"> 
-        <button id="draw-pile"> Draw Pile: Click Here to Draw a Card. </button>
-        <div class = 'waste' id="waste-pile"> This is the waste pile. </div>
-    
-        <div id="foundation-piles">
-            <div> This is an empty box. </div>
-            <div class = "foundation" id="spades"> This is the Spade Foundation Pile. </div>
-            <div class = "foundation" id="hearts"> This is the Heart Foundation Pile. </div>
-            <div class = "foundation" id="clubs"> This is the Clover Foundation Pile. </div>
-            <div class = "foundation" id="diamonds"> This is the Diamond Foundation Pile. </div>
+    <div class="top-row">
+        <div class="left-piles">
+            <button id="draw-pile">Draw</button>
+            <div id="waste-pile"></div>
+        </div>
+
+        <div class="foundation-area">
+            <div class="foundation" id="spades"></div>
+            <div class="foundation" id="hearts"></div>
+            <div class="foundation" id="clubs"></div>
+            <div class="foundation" id="diamonds"></div>
         </div>
     </div>
 
-    <div id= "bottom-half">
-
-        <div id="tableaus"></div>
-    
-    </div>
+<div id="tableaus"></div>
 
     <button id = "reset">Reset Button</button>
     
