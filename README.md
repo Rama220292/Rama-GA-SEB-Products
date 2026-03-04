@@ -102,8 +102,9 @@ JavaScript, HTMP, CSS
 
 ## Next steps
 1. The actual game allows the player to shift a stack of cards. This is not done yet given the complexity. 
-2. UI improvement: Show the card like an actual card appears. 
-3. UI improvement: Show the back of the card with a poker card design.
-4. UI improvement: Display the tableau piles in a semi-stacked fashion. 
-5. Include a timer to show the player how long it takes.
-6. Track the number of wins and how long the player took to win each game. 
+2. Click and drag to shift cards instead of just clicking cards. 
+3. UI improvement: Show the card like an actual card appears. 
+4. UI improvement: Show the back of the card with a poker card design.
+5. UI improvement: Display the tableau piles in a semi-stacked fashion. 
+6. Include a timer to show the player how long it takes.
+7. Track the number of wins and how long the player took to win each game. 
