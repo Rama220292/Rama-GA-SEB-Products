@@ -23,6 +23,8 @@ const resetButton = document.getElementById("reset")
 const drawButton = document.getElementById("draw-pile")
 const wastePileDiv = document.getElementById('waste-pile')
 const foundationClass = document.querySelectorAll('.foundation')
+const message = document.getElementById('message')
+const status = document.getElementById('game-status')
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -147,7 +149,7 @@ const selectCardFunction = (card, cardPile, cardKey) => {
     selectedCard = card
     selectedCardPile = cardPile //This is either 'tableau' or 'foundation' or 'waste'
     selectedCardKey = cardKey //This is either 'tabX' or 'spades/hearts/clubs/diamonds' or 'waste'
-
+    message.textContent = `Card Selected: ${card.display}.`
 }
 
 // Function to select a pile. Feedback from ChatGPT was to capture the pile name and the pile key. 
@@ -157,6 +159,7 @@ const selectPileFunction = (pile, key) => {
     selectedPile = {piletype: pile,   // pile here is either 'tableau' or 'foundation' or 'waste' 
                     pilekey: key}     // key here either 'tabX' or 'spades/hearts/clubs/diamonds' or 'waste-pile'
     
+     message.textContent = message.textContent + ` Pile Selected: '${selectedPile.pilekey}.`
     moveCard()
 }
 
@@ -285,6 +288,7 @@ const checkWin = () => {
         foundationPiles.clubs.length === 13 &&
         foundationPiles.diamonds.length === 13){
             userWin = true
+            status.textContent = "Game Status: Congratulations! You won the game!"
     }
         // include a display to say that game is over. 
 }   
@@ -349,7 +353,7 @@ const renderTableaus = () => {
     })
 }
 
-// DOM Function to display the Draw Pile and Waste Pile
+// DOM Function to display the Draw Pile
 
 const renderDrawPile = () => {
     
@@ -359,6 +363,8 @@ const renderDrawPile = () => {
         drawButton.textContent = `Draw Pile: No cards left in draw pile. Click to recycle draw pile.`
 
 }
+
+// DOM Function to display the Waste Pile
 
 // const renderWastePile = () => {
 
