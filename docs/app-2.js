@@ -159,7 +159,7 @@ const selectPileFunction = (pile, key) => {
     selectedPile = {piletype: pile,   // pile here is either 'tableau' or 'foundation' or 'waste' 
                     pilekey: key}     // key here either 'tabX' or 'spades/hearts/clubs/diamonds' or 'waste-pile'
     
-     message.textContent = message.textContent + ` Pile Selected: '${selectedPile.pilekey}.`
+     message.textContent = message.textContent + ` Pile Selected: ${selectedPile.pilekey}.`
     moveCard()
 }
 

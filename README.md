@@ -64,3 +64,46 @@ My focus for the first project is to hone my software development skills, and sp
 
 ---
 
+# Project Deliverables
+
+---
+
+## Screenshot
+![Project Screenshot]('Project Screenshot.png)
+
+---
+
+## Game Name
+Solitaire. Game where cards are placed in various piles, and some are placed face-down. Objective of the game is to shift the cards to 4 separare files, each representing one suit, where all cards of the same suit are placed in sequential order from lowest to biggest. The shifting of cards has some rules. 
+
+---
+
+## Getting started: https://rama220292.github.io/Rama-GA-SEB-Products/
+1. Click the Restart Button at the bottom left to start the game.
+2. You can choose how may tableaus you want, from 3 to 7. The lower the tableaus, the harder the game is. 
+3. To draw a card, click the Draw Pile Button at the top right. 
+4. To move a card, click a card, and then click a pile. If the the card and pile selection fulfill the shifting rules, then your card will be shifted. 
+5. You win when the 4 foundation piles have all the cards of the same suits placed in ascending order.
+6. If you want to restart the game, then click the restart button.
+
+---
+
+## Attributions
+Used ChatGPT to guide me, and used it to develop the full CSS. The link is below 
+https://chatgpt.com/share/69a79dd9-7860-800c-8771-3e23cac4e891.
+I also used order standard resources such as the Card Starter Pack from GA Resources, MDN and Stackoverflow.
+
+---
+
+## Technologies Used
+JavaScript, HTMP, CSS
+
+---
+
+## Next steps
+1. The actual game allows the player to shift a stack of cards. This is not done yet given the complexity. 
+2. UI improvement: Show the card like an actual card appears. 
+3. UI improvement: Show the back of the card with a poker card design.
+4. UI improvement: Display the tableau piles in a semi-stacked fashion. 
+5. Include a timer to show the player how long it takes.
+6. Track the number of wins and how long the player took to win each game. 
