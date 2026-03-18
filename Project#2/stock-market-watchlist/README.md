@@ -29,6 +29,7 @@ Day 5: Testing, Deployment, Bug Fixes
 ![Home Page](images/homepage.png)
 
 2. Add Stocks Page
+
 ![Add Stocks](images/addStockList.png)
 
 3. Web List Page
@@ -36,6 +37,7 @@ Day 5: Testing, Deployment, Bug Fixes
 ![Watchlist](images/watchlist.png)
 
 4. Key Indexes Page
+
 ![Key Indexes](images/keyIndexes.png)
 
 ---
