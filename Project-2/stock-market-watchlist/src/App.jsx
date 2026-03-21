@@ -1,31 +1,27 @@
 // src/App.jsx
-import { getAllStocks } from './components/stockService';
+import { getStock } from './components/stockService';
 import { useEffect, useState } from 'react'
 import './App.css'
-
+import NavBar from './components/NavBar';
+import KeyIndexPage from './pages/KeyIndexPage';
+import { Routes, Route } from "react-router-dom";
+import AddStockFormPage from './pages/AddStockFormPage';
+import WatchlistPage from './pages/WatchlistPage';
 const App = () => {
   
-  const [stock, setStock] = useState(null);
-
-  useEffect(() => {
-    async function getData(ticker) {
-      const data = await getAllStocks(ticker)
-      setStock(data)
-    }
-    getData('GOOG')
-  }, [])
-
   return (
     <> 
-      <h1>Hello world!</h1>
+      <NavBar />
+      <h1>Welcome to Stocks Watchlist</h1>
+      <h2>Track your favourite stocks and monitor performance.</h2>
+      <Routes>
+        <Route path="/" element={<h2>Home Page</h2>} />
+        <Route path ='/add-stock-to-watchlist' element = {<AddStockFormPage />}/>
+        <Route path = '/watchlist' element = {<WatchlistPage />} />
+        <Route path ='/keyindex' element = {<KeyIndexPage />}/>
 
-      {!stock ? (<p>Loading...</p>) :
-      (<ul>
-        <li>Stock Ticker: </li>
-        <li>Stock Price: {stock.c}</li>
-        <li>Daily Return: {stock.dp}</li>
-      </ul>)
-      }
+      </Routes>
+      
  
     </>
   )
