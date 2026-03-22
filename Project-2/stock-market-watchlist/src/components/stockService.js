@@ -56,7 +56,6 @@ export async function getWatchlist() {
   try {
     const response = await fetch(url, {
       headers: {    
-        // "Content-Type": "application/json",
         authorization: `Bearer ${AIRTABLE_TOKEN}`,
       },
     })
@@ -73,6 +72,35 @@ export async function getWatchlist() {
     console.error(error.message);
     return null
   }
+}
+
+export async function deleteStockFromWatchlist(id) {
+  const url = `https://api.airtable.com/v0/appuSI8OLcgauprpw/Table%201/${id}`;
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      Authorization:
+        `Bearer ${AIRTABLE_TOKEN}`,
+    },
+  };
+
+  try {
+    const response = await fetch(url, options)
+
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.deleted === true 
+
+  } catch (error) {
+    console.error("Airtable error:", error.message);
+    return false
+  }
+
 }
 
 
